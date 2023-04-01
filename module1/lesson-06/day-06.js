@@ -171,3 +171,43 @@ console.log('airbnbSum', airbnbSum);
 // 2. Divide that sum by the number of airbnb places
 // 3. Display the returned value
 console.log('avgPrice', `${airbnbSum/places.length} euros`)
+
+// .sort method example
+
+const numbers = [22, 23, 99, 68, 1, 0, 9,-9, 112,-2, 223, 64,23, 18];
+
+// const compare = (a, b) => {
+//     if (a < b) return 1; // a is less than b
+//     if (a > b) return -1; // a is greater than b
+//     if (a === b) return 0;
+// }
+
+// const sortedArray = numbers.sort(compare);
+const sortedArray = numbers.sort((a, b) => a - b);
+const cheapestToHighestPlaces = places.sort((currentPlace, nextPlace) => currentPlace.price - nextPlace.price)
+console.log('sortedArray', sortedArray)
+// console.log('cheapestToHighestPlaces', cheapestToHighestPlaces)
+
+const words = ['Hello', 'Goodbye', 'AA', 'First', 'A', 'a', 'Second', 'b', 'Third'];
+ 
+// Sort in Alphabetical order
+// words.sort(function (a, b) {
+//   if (a.toLowerCase() < b.toLowerCase()) return -1; //  1 here (instead of -1 for ASC)
+//   if (a.toLowerCase() > b.toLowerCase()) return 1; // -1 here (instead of  1 for ASC)
+//   if (a.toLowerCase() === 0) return 0;
+// });
+ 
+// Sort by string length
+words.sort(function (a, b) {
+    if (a.length < b.length) return -1; //  1 here (instead of -1 for ASC)
+    if (a.length > b.length) return 1; // -1 here (instead of  1 for ASC)
+    if (a.length === b.length) return 0;
+  });
+
+console.log('words', words);
+
+const arr1 = ['one', 4, 'two', 6, 'three', 1];
+const arr2 = arr1.reverse();
+ 
+console.log(arr1); // ['three', 'two', 'one'] // --> original array is mutated
+console.log(arr2); //
