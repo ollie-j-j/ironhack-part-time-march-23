@@ -58,5 +58,32 @@ console.log('human after eating pizza', human)
 
 
 // Create a subclass Man from class Human, it should have it's gender set to 'male' automatically
+class Man extends Human {
+    constructor(name, age, calories){
+        super(name, 'male', age, calories)
+        
+    }
+    eatFood(food){ // overriding the method eatFood
+        this.calories += food.totalCalories/2;
+    }
+}
+
+const aMan = new Man('John Doe', 34, 0);
+const bMan = new Man('Dave Chappelle', 54, 0);
+bMan.eatFood(pennePasta);
+console.log('aMan', aMan)
+console.log('bMan', bMan)
 // Create a subclass Woman from class Human, it should have it's gender set to 'female' automatically
+class Woman extends Human {
+    constructor(name, age, calories){
+        super(name, 'female', age, calories)
+        
+    }
+}
+
+const aWoman = new Woman('Nina Simone', 67, 0);
+const bWoman = new Woman('Beyonce', 35, 0);
+bWoman.eatFood(pizza)
+console.log('aWoman', aWoman)
+console.log('bWoman', bWoman)
 // Create instances of each class and print them to the console to confirm they work
