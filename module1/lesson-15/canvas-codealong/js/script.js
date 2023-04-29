@@ -23,6 +23,23 @@ class Component {
         this.y += this.speedY;
       }
 
+      left() {
+        return this.x;
+      }
+      right() {
+        return this.x + this.width;
+      }
+      top() {
+        return this.y;
+      }
+      bottom() {
+        return this.y + this.height;
+      }
+     
+      crashWith(obstacle) {
+        return !(this.bottom() < obstacle.top() || this.top() > obstacle.bottom() || this.right() < obstacle.left() || this.left() > obstacle.right());
+      }
+
       jump(){
         // this.y needs to mimic a jump
 
@@ -36,7 +53,8 @@ function updateGameArea() { // updating our Game
     player.newPos(); // update 
     player.update(); // update the player's position
     // update the backGround movement
-    updateObstacles();
+    updateObstacles(); // draws obstacles on Canvas
+    checkGameOver(); // check if player collides with one obstacle
 }
 
 function updateObstacles() {
@@ -49,7 +67,7 @@ function updateObstacles() {
 
     if (myGameArea.frames % 120 === 0) { // if myGameArea.frames === 0 || myGameArea.frames === x * 120
     // console.log(myGameArea.frames)
-    console.log(myObstacles)
+    // console.log(myObstacles)
       let x = myGameArea.canvas.width;
       let minHeight = 20;
       let maxHeight = 200;
@@ -63,9 +81,22 @@ function updateObstacles() {
     }
   }
 
+  function checkGameOver() {
+    const crashed = myObstacles.some(function (obstacle) { // checking if one obstacle collides with player
+      return player.crashWith(obstacle);
+    });
+   
+    if (crashed) {
+      myGameArea.stop(); // stop the game
+    }
+  }
+
 const myGameArea = {
     canvas: document.createElement('canvas'),
     frames: 0,
+    stop: function () { // stop the game
+        clearInterval(this.interval);
+      },
     start: function () {
       this.canvas.width = 480;
       this.canvas.height = 270;
