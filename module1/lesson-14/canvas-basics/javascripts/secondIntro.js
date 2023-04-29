@@ -148,42 +148,79 @@ const secondCtx = secondCanvas.getContext('2d');
 
 // Horizontal image movement 
 
+// const img = new Image();
+// img.src = 'https://orig15.deviantart.net/8bed/f/2015/058/a/8/smb1_background_by_steamerthesteamtrain-d8jq7ea.png';
+
+// const backgroundImage = {
+//   img: img,
+//   x: 0,
+//   speed: -1,
+
+//   move: function() {
+//     this.x += this.speed; // 0 -> -1 -> -2
+//     this.x %= canvas.width; // this.x = this.x % canvas.width --> 0
+//     // when we reach a certain point we go back to the beginning
+//   },
+
+//   draw: function() {
+//     secondCtx.drawImage(this.img, this.x, 0);
+//     secondCtx.drawImage(this.img, this.x + canvas.width, 0);
+//     // if (this.speed < 0) {
+//     //   secondCtx.drawImage(this.img, this.x + canvas.width, 0);
+//     // }
+//     //  else {
+//     //   secondCtx.drawImage(this.img, this.x - this.img.width, 0);
+//     // }
+//   },
+// };
+
+// function updateCanvas() {
+//   backgroundImage.move(); // this will update the background image X position
+
+//   secondCtx.clearRect(0, 0, canvas.width, canvas.height); // this will clear Canvas 
+//   backgroundImage.draw(); // this will draw the new position of the background Image
+
+//   requestAnimationFrame(updateCanvas); // this will loop the animation process
+// }
+
+// // start calling updateCanvas once the image is loaded
+
+// img.addEventListener('load', updateCanvas) // same as img.onload = updateCanvas;
+
+// Vertical animation
 const img = new Image();
-img.src = 'https://orig15.deviantart.net/8bed/f/2015/058/a/8/smb1_background_by_steamerthesteamtrain-d8jq7ea.png';
+ img.src = 'https://png.pngtree.com/element_our/md/20180321/md_d76401cff8291e4834a4754df44cb637.jpg';
 
 const backgroundImage = {
-  img: img,
-  x: 0,
-  speed: -1,
+    img: img,
+    x: 0,
+    y:0,
+    speed: -1,
+  
+    move: function() {
+      this.y += this.speed; // this.y = this.y - 1
+      this.y %= canvas.height; // this.y = this.y % backgroundCanvas.height --> if (this.y === backgroundCanvas) this.y = 0
+    },
+  
+    draw: function() {
+      secondCtx.drawImage(this.img, 0, this.y);
+      secondCtx.drawImage(this.img, 0, this.y + this.img.height);
+  }
+  }
 
-  move: function() {
-    this.x += this.speed; // 0 -> -1
-    this.x %= canvas.width; // this.x = this.x % canvas.width --> 0
-    // when we reach a certain point we go back to the beginning
-  },
+  function updateBackgroundCanvas() {
+    backgroundImage.move(); // updates the backgroundImage Y position
+    secondCtx.clearRect(0, 0, canvas.width, canvas.height); // clears the canvas for the next frame
+    backgroundImage.draw(); // draws the backgroundImage at its new Y position
 
-  draw: function() {
-    secondCtx.drawImage(this.img, this.x, 0);
-    if (this.speed < 0) {
-      secondCtx.drawImage(this.img, this.x + canvas.width, 0);
-    } else {
-      secondCtx.drawImage(this.img, this.x - this.img.width, 0);
-    }
-  },
-};
-
-function updateCanvas() {
-  backgroundImage.move(); //
-
-  secondCtx.clearRect(0, 0, canvas.width, canvas.height);
-  backgroundImage.draw();
-
-  requestAnimationFrame(updateCanvas);
+    requestAnimationFrame(updateBackgroundCanvas) //
+    // setInterval(updateBackgroundCanvas, 200)
 }
 
-// start calling updateCanvas once the image is loaded
-img.onload = updateCanvas;
-
+img.onload = function() {
+    updateBackgroundCanvas()
+};
+    
 // secondCtx.fillStyle = "#000";
 // secondCtx.fillRect(0,0, 50,50);
 // secondCtx.save();
