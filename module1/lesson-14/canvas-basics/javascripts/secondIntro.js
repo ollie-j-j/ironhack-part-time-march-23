@@ -158,7 +158,7 @@ const backgroundImage = {
 
   move: function() {
     this.x += this.speed; // 0 -> -1
-    this.x %= 1600; // this.x = this.x % canvas.width --> 0
+    this.x %= canvas.width; // this.x = this.x % canvas.width --> 0
     // when we reach a certain point we go back to the beginning
   },
 
