@@ -9,7 +9,13 @@ const User = require('../models/User.model');
 /* GET Signup page */
 router.get("/signup", (req, res, next) => {
   console.log('req.session', req.session)
+  if(req.session.currentUser){
+    res.render('auth/signup', {loggedIn: true})
+  }
+  else{
     res.render('auth/signup')
+  }
+    
 });
 
 router.post("/signup", (req, res, next) => {
@@ -31,8 +37,12 @@ router.post("/signup", (req, res, next) => {
       });
     })
     .then(userFromDB => {
+
+      const {username, email} = userFromDB;
+      
+      req.session.currentUser = {username, email}
       console.log('Newly created user is: ', userFromDB);
-      res.redirect(`/auth/profile/${userFromDB.username}`)
+      res.redirect(`/auth/profile`)
     })
     .catch(error => next(error));
 
@@ -40,7 +50,12 @@ router.post("/signup", (req, res, next) => {
 
 router.get('/login', (req, res) =>{
   console.log('req.session', req.session)
-  res.render('auth/login')
+  if(req.session.currentUser){
+    res.render('auth/login', {loggedIn: true})
+  }
+  else{
+    res.render('auth/login')
+  }
 })
 
 router.post('/login', (req, res) => {
@@ -64,6 +79,7 @@ router.post('/login', (req, res) => {
       } else if (bcrypt.compareSync(password, user.passwordHash)) { // if entered password matches user password
         const { username, email } = user;
         req.session.currentUser = { username, email }; // add property currentUser to my session
+        user.loggedIn = true;
         res.render('auth/profile', user );
       } else { // if entered password doesnt match user.password
         res.render('auth/login', { errorMessage: 'Incorrect password.' });
@@ -72,14 +88,15 @@ router.post('/login', (req, res) => {
     .catch(error => next(error));
 })
 
-router.get("/profile/:username", (req, res, next) => {
+router.get("/profile", (req, res, next) => {
   // Session is configured ---> req.session
   // Use session to persist user loggedIn state ---> req.session.currentUser
    
     if(req.session.currentUser){
-       User.findOne({ username: req.params.username })
+       User.findOne({ username: req.session.currentUser.username })
         .then(foundUser => {
             console.log('foundUser', foundUser)
+            foundUser.loggedIn = true; // adding a property loggedIn and setting it to true
             res.render('auth/profile', foundUser)
         })
         .catch(err => console.log(err))
@@ -90,5 +107,12 @@ router.get("/profile/:username", (req, res, next) => {
     
     
 });
+
+router.post('/logout', (req,res) =>{
+  req.session.destroy(err => {
+    if (err) next(err);
+    res.redirect('/');
+  });
+})
 
 module.exports = router;

@@ -16,18 +16,19 @@ module.exports = app => {
       secret: 'Super safe secret', // used for generating the id of our session
       resave: true,
       saveUninitialized: true,
+      store: MongoStore.create({
+        mongoUrl:  process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/basic-auth",
+        // ttl: 10*60,
+        // autoRemove: 'interval',
+        // autoRemoveInterval: 10 
+      }), // define a sessions collection in MongoDB
       cookie: {
         // sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
         // secure: process.env.NODE_ENV === 'production',
         httpOnly: true,
         maxAge: 600000 // 60 * 1000 ms === 1 min
       },
-      store: MongoStore.create({
-        mongoUrl:  process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/basic-auth",
-        // ttl: 10*60,
-        // autoRemove: 'interval',
-        // autoRemoveInterval: 10 
-      }) // define a sessions collection in MongoDB
+      
     })
   );
 };
