@@ -5,9 +5,10 @@ const express = require('express');
 const router = express.Router();
 
 const User = require('../models/User.model');
+const { isLoggedIn, isLoggedOut } = require('../middleware/route-guard');
 
 /* GET Signup page */
-router.get("/signup", (req, res, next) => {
+router.get("/signup", isLoggedOut, (req, res, next) => {
   console.log('req.session', req.session)
   if(req.session.currentUser){
     res.render('auth/signup', {loggedIn: true})
@@ -48,7 +49,7 @@ router.post("/signup", (req, res, next) => {
 
 });
 
-router.get('/login', (req, res) =>{
+router.get('/login', isLoggedOut, (req, res) =>{
   console.log('req.session', req.session)
   if(req.session.currentUser){
     res.render('auth/login', {loggedIn: true})
@@ -88,7 +89,7 @@ router.post('/login', (req, res) => {
     .catch(error => next(error));
 })
 
-router.get("/profile", (req, res, next) => {
+router.get("/profile", isLoggedIn, (req, res, next) => {
   // Session is configured ---> req.session
   // Use session to persist user loggedIn state ---> req.session.currentUser
    
@@ -104,13 +105,11 @@ router.get("/profile", (req, res, next) => {
     else{
       res.render('auth/profile')
     }
-    
-    
 });
 
-router.post('/logout', (req,res) =>{
+router.post('/logout', isLoggedIn, (req,res) =>{
   req.session.destroy(err => {
-    if (err) next(err);
+    if (err) console.log(err);
     res.redirect('/');
   });
 })
