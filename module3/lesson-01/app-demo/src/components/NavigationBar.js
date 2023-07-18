@@ -1,18 +1,14 @@
-import React from 'react'
+import './NavigationBar.css'
 
 function NavigationBar(){
+    const navContent = ["Home", "About","Contact", "Team"];
+
   return (
     <nav>
         <ul>
-            <li>
-                Home
-            </li>
-            <li>
-                About
-            </li>
-            <li>
-                Contact
-            </li>
+            {navContent.map(navLink => {
+                return <li>{navLink}</li>
+            })}
         </ul>
     </nav>
  )
