@@ -13,13 +13,14 @@ function ProjectsPage({ projectsData }) {
   return (
     <div>
       <h2>Projects</h2>
-      {projects.map((project) => {
-        return (
-          <div key={project.id} className="project">
-            <h3>{project.name}</h3>
-            <p>{project.technologies}</p>
-          </div>
-        );
+      {projects.map((project, i) => {
+       
+          return (
+            <div key={project.id} className={i%2 === 0 ? "redBackground" : "regularBackground"} >
+             { project.name[0] === "T" ? <h3>{project.name}</h3> : <h2>{project.name.toUpperCase()}</h2>}
+              <p>{project.technologies}</p>
+            </div>
+          );
       })}
     </div>
   );
