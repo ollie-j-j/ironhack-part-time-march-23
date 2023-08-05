@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 function SingleApartmentPage(){
     const [apartment, setApartment] = useState(null);
@@ -11,7 +11,7 @@ function SingleApartmentPage(){
     useEffect(()=>{
         async function fetchSingleApartment(){
             try {
-                const response = await axios.get(`https://ironbnb-m3.herokuapp.com/apartments/${apartmentId}`);
+                const response = await axios.get(`http://localhost:5005/api/apartments/${apartmentId}`);
                 setApartment(response.data)
                 setIsLoading(true);
             } catch (error) {

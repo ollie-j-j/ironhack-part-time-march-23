@@ -9,7 +9,8 @@ function ApartmentsPage() {
   useEffect(()=>{
     async function fetchApartments(){
         try {
-            const response = await axios.get('https://ironbnb-m3.herokuapp.com/apartments');
+            // const response = await axios.get('https://ironbnb-m3.herokuapp.com/apartments');
+            const response = await axios.get('http://localhost:5005/api/apartments');
             setApartments(response.data)
             setIsLoading(true);
         } catch (error) {

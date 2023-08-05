@@ -20,7 +20,7 @@ function AddApartmentPage() {
         }
         console.log('newApartment', newApartment);
         //3. Send an axios Post request which carries the data of our new apartment
-        axios.post('https://ironbnb-m3.herokuapp.com/apartments', newApartment)
+        axios.post('http://localhost:5005/api/apartments', newApartment)
             .then(({ data }) => {
                 console.log('post response data', data)
                 navigate("/");
