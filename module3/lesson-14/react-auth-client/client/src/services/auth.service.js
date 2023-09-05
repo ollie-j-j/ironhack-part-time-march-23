@@ -24,7 +24,7 @@ class AuthService {
   login = requestBody => {
     return this.api.post('/auth/login', requestBody);
     // same as
-    // return axios.post("http://localhost:5005/auth/login");
+    // return axios.post("http://localhost:5005/auth/login", requestBody);
   };
  
   signup = requestBody => {
