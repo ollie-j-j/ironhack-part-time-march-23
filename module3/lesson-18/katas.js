@@ -45,8 +45,55 @@
 //     }
 // }
 
-scramble('dow','wood') //true
+// scramble('dow','wood') //true
 // scramble('cedewaraaossoqqyt', 'codewars') // true
 // scramble('katas', 'steak')// false
 
-// Balancing Parantheses Solutions (https://www.codewars.com/kata/all-that-is-open-must-be-closed-dot-dot-dot)
+// Pete the Baker (https://www.codewars.com/kata/pete-the-baker/train/javascript)
+
+//RAPHAEL SOLUTION
+
+function cakes(recipe, available) {
+  let maxCakes = 0;
+
+  for (const ingredient in recipe) {
+    if (!available.hasOwnProperty(ingredient) || available[ingredient] < recipe[ingredient]) {
+      return 0;
+    }
+
+    const possibleCakes = Math.floor(available[ingredient] / recipe[ingredient]);
+   maxCakes = maxCakes == 0 ? possibleCakes : Math.min(maxCakes, possibleCakes);
+  }
+
+  return maxCakes;
+}
+
+// MY OWN SOLUTION
+
+function cakes(recipe, available) {
+  // Check which keys are present in both recipe and available
+      // Compare those
+  // Conditionally increase the number of cake
+  // Set a condition so that if one ingredient is less than the minimum required
+  // amount for the recipe then return the current number of cakes
+  // return the maximum number of cakes that can be baked
+  let recipeKeys = Object.keys(recipe); // creating an array with all the keys/ingredients name
+  let recipeValues = Object.values(recipe); // creating an array with all the values/ingredients name
+  let maxCakesPerIngredients = [] // this is used so I can add later the max amount of cakes for each ingredients
+
+  for(let i = 0; i < recipeKeys.length; i++) {
+    // if(available[recipeKeys[i]]){ // check if the key exists in 
+    //     maxCakesPerIngredients.push(Math.floor(available[recipeKeys[i]] / recipeValues[i]))
+    // }
+    // else {
+    //     maxCakesPerIngredients.push(0);
+    // }
+    available[recipeKeys[i]] ? maxCakesPerIngredients.push(Math.floor(available[recipeKeys[i]] / recipeValues[i])) : maxCakesPerIngredients.push(0);
+    
+  }
+  console.log( Math.min(...maxCakesPerIngredients))
+  return Math.min(...maxCakesPerIngredients);
+}
+
+cakes({flour: 500, sugar: 200, eggs: 1}, {flour: 1200, sugar: 1200, eggs: 5, milk: 200}); 
+cakes({apples: 3, flour: 300, sugar: 150, milk: 100, oil: 100}, {sugar: 500, flour: 2000, milk: 2000});
